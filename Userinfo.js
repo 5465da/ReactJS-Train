@@ -26,9 +26,9 @@ export default class Userinfo extends Component {
     }
 
     updateGender = (e) => {
-     if(e.target.value == 'Female'){
-        this.setState({gender: e.target.value});
-     }  
+        if (e.target.value === 'Female') {
+            this.setState({ gender: e.target.value });
+        }
     }
 
     updateAbout = (e) => {
@@ -52,7 +52,7 @@ export default class Userinfo extends Component {
         })
     }
 
-    UNSAFE_componentWillMount() {
+    componentWillMount() {
         var data = localStorage.getItem('personDetails');
         if (data != null) {
             data = JSON.parse(data);
@@ -66,51 +66,82 @@ export default class Userinfo extends Component {
     render() {
         return (
             <form onSubmit={this.handleSubmit}>
-
-                <div>
-                    <label>Name:</label>
-                    <input type="text" value={this.state.name} onChange={this.updateName} required />
+                <div className="row">
+                    <div class="col-15">
+                        <label htmlFor="fname">Name:</label>
+                    </div>
+                    <div className="col-65">
+                        <input type="text" value={this.state.name} onChange={this.updateName} required placeholder="Your name" />
+                    </div>
                 </div>
 
-                <div>
-                    <label>Age:</label>
-                    <input type="text" value={this.state.age} onChange={this.updateAge} required />
+                <div className="row">
+                    <div class="col-15">
+                        <label htmlFor="fname">Age:</label>
+                    </div>
+                    <div className="col-65">
+                        <input type="text" value={this.state.age} onChange={this.updateAge} required placeholder="Your Age" />
+                    </div>
                 </div>
 
-                <div>
-                    <label>Gender:</label>
-                    <select onChange={this.updateGender}>
-                        <option value="Male">Male</option>
-                        <option value="Female">Female</option>
-                    </select>
+                <div className="row">
+                    <div class="col-15">
+                        <label htmlFor="fname">Gender:</label>
+                    </div>
+                    <div className="col-65">
+                        <select onChange={this.updateGender}>
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                        </select>
+                    </div>
                 </div>
 
-                <div>
-                    <label>About You</label>
-                    <textarea onChange={this.updateAbout} value={this.state.about} required></textarea>
+                <div className="row">
+                    <div class="col-15">
+                        <label htmlFor="fname">About You:</label>
+                    </div>
+                    <div className="col-65">
+                        <textarea onChange={this.updateAbout} value={this.state.about} required placeholder="About yourself"></textarea>
+                    </div>
                 </div>
+
+
+                <div className="row">
+                    <label htmlFor="fname">Programming</label>
+                    <input type="checkbox" name="box" onClick={this.UpdateSkills} value="Programming" />
+
+                </div>
+
+                <div className="row">
+                    <label htmlFor="fname">Gaming</label>
+                    <input type="checkbox" name="box" onClick={this.UpdateSkills} value="Gaming" />
+                </div>
+
+                <div className="row">
+                    <label htmlFor="fname">Sleeping</label>
+                    <input type="checkbox" name="box" onClick={this.UpdateSkills} value="Sleeping" />
+                </div>
+
 
                 <button type="submit">Submit</button>
-                <div>
-                <ul>
-                    {
-                        this.arr.map(item => {
-                            return (
-                                <li key={item.id}>
-                                    {item.name}
-                                    {item.age}
-                                    {item.gender}
-                                </li>
-                            )
-                        })
-                    }
-                </ul>
-                </div>
-             
-               Programming <input type="checkbox" name="box" onClick={this.UpdateSkills} value="Programming"/>
-               Gaming <input type="checkbox"  name="box" onClick={this.UpdateSkills} value="Gaming"  />
-               Sleeping <input type="checkbox" name="box" onClick={this.UpdateSkills} value="Sleeping" />
 
+                <div className="row">
+                    <ul>
+                        {
+                            this.arr.map(item => {
+                                return (
+                                    <li key={item.id}>
+                                        {item.name}{' '}
+                                        {item.age}{' '}
+                                        {item.gender}{' '}
+                                        {item.skills}{' '}
+                                        {item.about}{' '}
+                                    </li>
+                                )
+                            })
+                        }
+                    </ul>
+                </div>
             </form>
         )
     }

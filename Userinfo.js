@@ -7,7 +7,7 @@ export default class Userinfo extends Component {
         this.state = {
             name: '',
             age: '',
-            gender: 'male',
+            gender: '',
             skills: [
             ],
             about: '',
@@ -122,9 +122,10 @@ export default class Userinfo extends Component {
                         <label htmlFor="fname">Gender:</label>
                     </div>
                     <div className="col-65">
-                        <select onChange={this.updateGender} name="gender">
-                            <option value="Male">Male</option>
-                            <option value="Female">Female</option>
+                        <select onChange={this.updateState} name="gender" required>
+                            <option value="">Select Option</option>
+                            <option value="Male" name="male">Male</option>
+                            <option value="Female" name="female">Female</option>
                         </select>
                     </div>
                 </div>

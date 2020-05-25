@@ -18,38 +18,65 @@ export default class Userinfo extends Component {
     }
 
     updateName = (e) => {
+        console.log(e.target.value)
         this.setState({ name: e.target.value, id: 1 + Math.random() })
     }
 
-    updateAge = (e) => {
-        this.setState({ age: e.target.value })
-    }
-
-    updateGender = (e) => {
-        if (e.target.value === 'Female') {
-            this.setState({ gender: e.target.value });
+    updateState = (e) => {
+        switch (e.target.name) {
+            case "name":
+                this.setState({ name: e.target.value })
+                break;
+            case "age":
+                this.setState({ age: e.target.value })
+                break;
+            case "gender":
+                this.setState({ gender: e.target.value })
+                break;
+            case "about":
+                this.setState({ about: e.target.value })
+                break;
+            case "skills":
+                if (e.target.checked === true) {
+                    const temp = [...this.state.skills];
+                    if (!temp.includes(e.target.value)) {
+                        temp.push(e.target.value)
+                        this.setState({
+                            skills: temp
+                        })
+                    }
+                }
+                else if (e.target.checked === false) {
+                    const temp = [...this.state.skills];
+                    let index = temp.indexOf(e.target.value)
+                    if (index !== -1) {
+                        temp.splice(index, 1);
+                        this.setState({
+                            skills: temp
+                        });
+                      }
+                }
+                break;
+            default:
+                    alert("Error encountered")
         }
+        this.setState({
+            id: 1 + Math.random()
+        })
     }
 
-    updateAbout = (e) => {
-        this.setState({ about: e.target.value })
-    }
-
-    handleSubmit = (e) => {
-        e.preventDefault();
-        this.arr.push(this.state)
-        localStorage.setItem('personDetails', JSON.stringify(this.arr))
-        this.forceUpdate()
-        e.target.reset();
+    resetState = (e) => {
         this.setState(this.baseState)
     }
 
-    UpdateSkills = (e) => {
-        const temp = [...this.state.skills];
-        temp.push(e.target.value)
-        this.setState({
-            skills: temp
-        })
+    updateStorage = (e) => {
+        this.arr.push(this.state)
+        localStorage.setItem('personDetails', JSON.stringify(this.arr))
+    }
+
+    handleSubmit = (e) => {
+        this.updateStorage();
+        this.resetState(e);
     }
 
     componentWillMount() {
@@ -62,6 +89,27 @@ export default class Userinfo extends Component {
         }
     }
 
+    test = (e) => {
+        if (e.target.checked === true) {
+            const temp = [...this.state.skills];
+            if (!temp.includes(e.target.value)) {
+                temp.push(e.target.value)
+                this.setState({
+                    skills: temp
+                })
+            }
+        }
+        else if (e.target.checked === false) {
+            const temp = [...this.state.skills];
+            let index = temp.indexOf(e.target.value)
+            if (index !== -1) {
+                temp.splice(index, 1);
+                this.setState({
+                    skills: temp
+                });
+              }
+        }
+    }
 
     render() {
         return (
@@ -71,7 +119,7 @@ export default class Userinfo extends Component {
                         <label htmlFor="fname">Name:</label>
                     </div>
                     <div className="col-65">
-                        <input type="text" value={this.state.name} onChange={this.updateName} required placeholder="Your name" />
+                        <input type="text" value={this.state.name} onChange={this.updateState} required placeholder="Your Name" name="name" />
                     </div>
                 </div>
 
@@ -80,7 +128,7 @@ export default class Userinfo extends Component {
                         <label htmlFor="fname">Age:</label>
                     </div>
                     <div className="col-65">
-                        <input type="text" value={this.state.age} onChange={this.updateAge} required placeholder="Your Age" />
+                        <input type="text" value={this.state.age} onChange={this.updateState} required placeholder="Your Age" name="age" />
                     </div>
                 </div>
 
@@ -89,7 +137,7 @@ export default class Userinfo extends Component {
                         <label htmlFor="fname">Gender:</label>
                     </div>
                     <div className="col-65">
-                        <select onChange={this.updateGender}>
+                        <select onChange={this.updateGender} name="gender">
                             <option value="Male">Male</option>
                             <option value="Female">Female</option>
                         </select>
@@ -101,28 +149,27 @@ export default class Userinfo extends Component {
                         <label htmlFor="fname">About You:</label>
                     </div>
                     <div className="col-65">
-                        <textarea onChange={this.updateAbout} value={this.state.about} required placeholder="About yourself"></textarea>
+                        <textarea onChange={this.updateState} value={this.state.about} required placeholder="About yourself" name="about"></textarea>
                     </div>
                 </div>
 
-
+                <div className="checkbox-group required">
                 <div className="row">
                     <label htmlFor="fname">Programming</label>
-                    <input type="checkbox" name="box" onClick={this.UpdateSkills} value="Programming" />
-
+                    <input type="checkbox" name="box" onChange={this.updateState} value="Programming" name="skills"/>
                 </div>
 
                 <div className="row">
                     <label htmlFor="fname">Gaming</label>
-                    <input type="checkbox" name="box" onClick={this.UpdateSkills} value="Gaming" />
+                    <input type="checkbox" name="box" onChange={this.updateState} value="Gaming" name="skills"/>
                 </div>
 
                 <div className="row">
                     <label htmlFor="fname">Sleeping</label>
-                    <input type="checkbox" name="box" onClick={this.UpdateSkills} value="Sleeping" />
+                    <input type="checkbox" name="box" onChange={this.updateState} value="Sleeping" name="skills"/>
                 </div>
-
-
+                </div>
+             
                 <button type="submit">Submit</button>
 
                 <div className="row">
